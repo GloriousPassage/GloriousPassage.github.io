@@ -7,7 +7,7 @@
   "start_url": "./index.html",
   "icons": [
     {
-      "src": "./images/jintsu.JPEG",
+      "src": "images/jintsu.JPEG",
       "sizes": "192x192",
       "type": "image/JPEG"
     }
