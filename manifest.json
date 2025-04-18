@@ -3,7 +3,7 @@
   "short_name": "艦これ",
   "theme_color": "#0070E1",
   "background_color": "#0070E1",
-  "display": "fullscreen",
+  "display": "browser",
   "start_url": "./index.html",
   "icons": [
     {
