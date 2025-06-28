@@ -1,23 +1,19 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link rel="manifest" href="./manifest.json">
-    <link rel="stylesheet" href="stylesheet.css"> 
-    <a href="http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/">動かない場合はここをタップ</a>
-    <meta charset="utf-8">
-    <link rel="apple-touch-icon" href="images/jintsu.JPEG" />
-    <title>Progate</title>
-  </head>
-  <body>
-    <h1 class="title">艦これ！</h1>
-  </body>
-  <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').then(registration => {
-      console.log('ServiceWorker registration successful.');
-    }).catch(err => {
-      console.log('ServiceWorker registration failed.');
-    });
-  }
-  </script>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>DMMゲームを開いてURLを取り出す</title>
+</head>
+<body>
+  <h1>DMMページを開く</h1>
+  <p>1. 下のボタンを押してDMMのゲームページを開いてください。</p>
+  <p>2. そのページ内で以下のコードを手動で実行すると、ゲーム本体が別タブで開きます：</p>
+  <pre>
+javascript:window.open("http:" + gadgetInfo.URL, '_blank');
+  </pre>
+
+  <button onclick="window.open('http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/', '_blank')">
+    DMMのゲームページを開く
+  </button>
+</body>
 </html>
