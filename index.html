@@ -1,44 +1,23 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>DMMゲーム自動起動</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: sans-serif; padding: 1em; }
-    button { font-size: 1.2em; padding: 10px 20px; }
-  </style>
-</head>
-<body>
-  <h1>DMMゲーム自動起動</h1>
-  <p>以下のボタンをタップすると、DMMのゲームページを開き、数秒後にゲーム本体を自動起動します。</p>
-  <button onclick="openAndInject()">ゲームを起動する</button>
-
+<html>
+  <head>
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="stylesheet.css"> 
+    <a href="http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/">動かない場合はここをタップ</a>
+    <meta charset="utf-8">
+    <link rel="apple-touch-icon" href="images/jintsu.JPEG" />
+    <title>Progate</title>
+  </head>
+  <body>
+    <h1 class="title">艦これ！</h1>
+  </body>
   <script>
-    function openAndInject() {
-      const win = window.open('https://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/', '_blank');
-
-      const scriptToInject = `
-        (function tryOpenGame() {
-          if (typeof gadgetInfo !== 'undefined' && gadgetInfo.URL) {
-            window.open('http:' + gadgetInfo.URL, '_blank');
-          } else {
-            setTimeout(tryOpenGame, 500); // 変数がまだなければ再試行
-          }
-        })();
-      `;
-
-      // スクリプトを注入（ただしクロスオリジン制限により、通常はこれが動作しない）
-      try {
-        win.onload = function() {
-          const script = win.document.createElement('script');
-          script.textContent = scriptToInject;
-          win.document.body.appendChild(script);
-        };
-      } catch (e) {
-        alert("自動起動はこのブラウザでは制限されています。手動でブックマークレットを実行してください。");
-      }
-    }
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').then(registration => {
+      console.log('ServiceWorker registration successful.');
+    }).catch(err => {
+      console.log('ServiceWorker registration failed.');
+    });
+  }
   </script>
-</body>
 </html>
