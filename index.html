@@ -2,18 +2,43 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>DMMゲームを開いてURLを取り出す</title>
+  <title>DMMゲーム自動起動</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: sans-serif; padding: 1em; }
+    button { font-size: 1.2em; padding: 10px 20px; }
+  </style>
 </head>
 <body>
-  <h1>DMMページを開く</h1>
-  <p>1. 下のボタンを押してDMMのゲームページを開いてください。</p>
-  <p>2. そのページ内で以下のコードを手動で実行すると、ゲーム本体が別タブで開きます：</p>
-  <pre>
-javascript:window.open("http:" + gadgetInfo.URL, '_blank');
-  </pre>
+  <h1>DMMゲーム自動起動</h1>
+  <p>以下のボタンをタップすると、DMMのゲームページを開き、数秒後にゲーム本体を自動起動します。</p>
+  <button onclick="openAndInject()">ゲームを起動する</button>
 
-  <button onclick="window.open('http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/', '_blank')">
-    DMMのゲームページを開く
-  </button>
+  <script>
+    function openAndInject() {
+      const win = window.open('https://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/', '_blank');
+
+      const scriptToInject = `
+        (function tryOpenGame() {
+          if (typeof gadgetInfo !== 'undefined' && gadgetInfo.URL) {
+            window.open('http:' + gadgetInfo.URL, '_blank');
+          } else {
+            setTimeout(tryOpenGame, 500); // 変数がまだなければ再試行
+          }
+        })();
+      `;
+
+      // スクリプトを注入（ただしクロスオリジン制限により、通常はこれが動作しない）
+      try {
+        win.onload = function() {
+          const script = win.document.createElement('script');
+          script.textContent = scriptToInject;
+          win.document.body.appendChild(script);
+        };
+      } catch (e) {
+        alert("自動起動はこのブラウザでは制限されています。手動でブックマークレットを実行してください。");
+      }
+    }
+  </script>
 </body>
 </html>
